@@ -45,8 +45,13 @@ Route::prefix('tasks') -> middleware('auth') -> group(function(){
 
 Route::get('/boards', 'BoardController@index');           //리스트
 Route::get('/boards/create', 'BoardController@create');   //등록화면
-Route::get('/boards/{board}}', 'BoardController@show');   //상세
 Route::post('/boards', 'BoardController@store');          //저장
+
+Route::get('/boards/{id}/show', 'BoardController@show');   //상세
+Route::get('/boards/{id}/viewCnt', 'BoardController@viewCnt');   //상세 - 조횟수 증가
+
+Route::get('/boards/{id}/edit', 'BoardController@edit');   //수정
+
 //Route::post('/boards', 'BoardController@store');          //삭제
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Board;       //Board.php에 있는 namespace를 사용
 
 class BoardController extends Controller
 {
@@ -13,7 +14,9 @@ class BoardController extends Controller
      */
     public function index()
     {
-        return view('boards.index');
+        $boards = Board::orderby('id', 'desc')->get();
+        return view('boards.index')
+        ->with('boards', $boards);
     }
 
     /**
@@ -34,7 +37,15 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $board = Board::create([
+            //디비 테이블의 필드명 => 입력단에서 남어옴 입력 필드
+            'title'=>$request->input('title'),
+            'name'=>$request->input('name'),
+            'body'=>$request->input('body'),
+            //'view'=>$request->input('view')
+        ]); //모델
+
+        return redirect('/boards');
     }
 
     /**
@@ -45,7 +56,9 @@ class BoardController extends Controller
      */
     public function show($id)
     {
-        //
+         $board = Board::find($id);
+         return view('boards.show')
+         ->with('board', $board);
     }
 
     /**
@@ -56,7 +69,9 @@ class BoardController extends Controller
      */
     public function edit($id)
     {
-        //
+        $board = Board::find($id);
+        return view('boards.edit')
+        ->with('board', $board);
     }
 
     /**
@@ -80,5 +95,10 @@ class BoardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    //조횟수 증가 시키기
+    public function viewCnt($id){
+        return ($id);
     }
 }
