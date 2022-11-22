@@ -28,17 +28,18 @@
 						<label for="body" class="col-md-2 col-form-label text-md-right">{{ __('내용') }}</label>
 
 						<div class="col-md-10">
-							{{ nl2br($board->body) }}
+							{{ ($board->body) }}
 						</div>
 					</div>
 
 					<div class="form-group row mb-0">
 						<div class="col-md-12 offset-md-2">
 							<a href='{{ url('/') }}/boards/{{ $board->id }}/edit' class="btn btn-primary">{{ __('수정') }}</a>
-							<!--<a href='{{ url('/') }}/boards/{{ $board->id }}/delete' class="btn btn-danger">{{ __('삭제') }}</a>-->
-							<a href='javascript:goDelete();' class="btn btn-danger">{{ __('삭제') }}</a>
-
 							<a href="{{ url('boards') }}" class="btn btn-secondary">{{ __('목록') }}</a>
+
+							<!--<a href='{{ url('/') }}/boards/{{ $board->id }}/delete' class="btn btn-danger">{{ __('삭제') }}</a>-->
+							<a href='javascript:goDelete();' class="btn btn-danger">{{ __('삭제(U)') }}</a>
+							<a href='javascript:goDeleteExe();' class="btn btn-danger">{{ __('삭제(D)') }}</a>
 						</div>
 					</div>
 
@@ -49,8 +50,8 @@
 </div>
 
 {{-- 삭제 --}}
-<form method='POST' name='DEL_FORM' action='/boards/{{$board->id}}/delete'>
-	@method('DELETE')
+<form method='POST' name='DEL_FORM'>
+	@method('PUT')
 	@csrf
 </form>
 @endsection
@@ -58,6 +59,14 @@
 <script>
 	function goDelete(){
 		if(confirm("삭제하시겠습니까?")){
+			document.DEL_FORM.action='/boards/{{$board->id}}/updateState';
+			document.DEL_FORM.submit();
+		}
+	}
+
+	function goDeleteExe(){
+		if(confirm("삭제하시겠습니까?")){
+			document.DEL_FORM.action='/boards/{{$board->id}}/delete';
 			document.DEL_FORM.submit();
 		}
 	}
