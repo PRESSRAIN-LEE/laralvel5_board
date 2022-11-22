@@ -1,19 +1,49 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
-@section('content')
-    <h1>게시판 List</h1>
-    <ul>
-        @foreach ( $boards as $board)
-            <!--<li><a href='{{ url('/boards') }}/{{ $board->id }}/show'>title: {{ $board->title }} Created at: {{ $board->created_at }}</a></li>-->
-            <li><a href='javascript:goView({{ $board->id }});'>title: {{ $board->title }} Created at: {{ $board->created_at }}</a></li>
-        @endforeach
-    </ul>
-	<a href='{{ url('boards/create') }}'>글쓰기</a>
+@section('head_tag')
+
 @endsection
 
+@section('content')
+<h1>게시판 List</h1>
+
+<table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">제목</th>
+        <th scope="col">첨부파일</th>
+        <th scope="col">이름</th>
+        <th scope="col">조회</th>
+        <th scope="col">등록일</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ( $boards as $board)
+      <tr onClick='javascript:goView({{ $board->id }});' style='cursor:pointer;'>
+        <th scope="row">{{ $board->id }}</th>
+        <td>{{ $board->title }}</td>
+        <td>
+          @if ($board->files)
+            <a href=''>파일</a>
+          @endif
+        </td>
+        <td>{{ $board->name }}</td>
+        <td>{{ $board->view }}</td>
+        <td>{{ $board->created_at }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  {{ $boards->links() }}
+
+  <a href='{{ url('boards/create') }}' class='btn btn-primary'>글쓰기</a>
+@endsection
+
+@section('body_end_tag')
 <script>
     function goView(pa){
-        // url + get으로 보낼 데이터
         var url = "/boards/" + pa + "/viewCnt/"
 
         $.ajax({
@@ -31,3 +61,4 @@
         });
     }
 </script>
+@endsection

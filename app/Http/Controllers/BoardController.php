@@ -14,7 +14,11 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::orderby('id', 'desc')->get();
+        $boards = Board::where('status', 'Y')
+        ->orderby('id', 'desc')
+        ->paginate(10);
+        //->get();
+        
         return view('boards.index')
         ->with('boards', $boards);
     }
@@ -37,11 +41,19 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
+        $files = $request->file('files');
+        //return($files->getClientOriginalName());
+        $path = $request->file('files')->store('public/board');
+        //dd($request->file('files')->getClientOriginalName());
+        $originalFileName = $request->file('files')->getClientOriginalName();
+        $saveFileName = $request->file('files')->hashName();
+        
         $board = Board::create([
             //디비 테이블의 필드명 => 입력단에서 남어옴 입력 필드
             'title'=>$request->input('title'),
             'name'=>$request->input('name'),
             'body'=>$request->input('body'),
+            'files'=>$saveFileName,
             //'view'=>$request->input('view')
         ]); //모델
 
@@ -83,7 +95,14 @@ class BoardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //return 'OK';
+        $board = Board::find($id);
+        $board->title = $request->title;
+        $board->name = $request->name;
+        $board->body = $request->body;
+        $board->save();
+
+        return redirect('/boards/' . $id . '/show');
     }
 
     /**
@@ -92,13 +111,29 @@ class BoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    //완전 삭제
+    public function delete($id)
     {
-        //
+        $board = Board::find($id);
+        $board->delete();
+
+        return redirect('/boards/');
+    }
+
+    //삭제 - 상태값 업데이트
+    public function updateState(Request $request, $id){
+        $board = Board::find($id);
+        $board->status = 'N';
+        $board->save();
+
+        return redirect('/boards/');
     }
 
     //조횟수 증가 시키기
     public function viewCnt($id){
-        return ($id);
+        //return ($id);
+        $board = Board::find($id);
+        $board->view = ($board->view + 1);
+        $board->save();
     }
 }
