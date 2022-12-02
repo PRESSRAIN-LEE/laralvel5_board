@@ -8,7 +8,9 @@
                 <div class="card-header">{{ __('게시판 글쓰기') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" name='frm' id='frm' action='/boards' aria-label="{{ __('create') }}" enctype="multipart/form-data" onsubmit="return goSave();">
+                    <form method="POST" name='frm' id='frm' action='/reply_board' aria-label="{{ __('create') }}" enctype="multipart/form-data" onsubmit="return goSave();">
+                        <input id="member_id" type="text" name="member_id" value="">
+
                         @csrf
 
                         <div class="form-group row">
@@ -20,26 +22,34 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('이름') }}</label>
+                            <label for="member_name" class="col-md-2 col-form-label text-md-right">{{ __('이름') }}</label>
 
                             <div class="col-md-10">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="member_name" type="text" class="form-control{{ $errors->has('member_name') ? ' is-invalid' : '' }}" name="member_name" value="{{ old('member_name') }}" required autofocus>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="body" class="col-md-2 col-form-label text-md-right">{{ __('내용') }}</label>
+                            <label for="memo" class="col-md-2 col-form-label text-md-right">{{ __('내용') }}</label>
 
                             <div class="col-md-10">
-                                <textarea name="body" id="body" rows="5" class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}" {{ old('body') }} required autofocus></textarea>
+                                <textarea name="memo" id="memo" rows="5" class="form-control{{ $errors->has('memo') ? ' is-invalid' : '' }}" {{ old('memo') }} required autofocus></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('첨부파일') }}</label>
+                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('첨부파일1') }}</label>
 
                             <div class="col-md-10">
-                                <input id="files" type="file" class="form-control-file" name="files">
+                                <input id="files" type="file" class="form-control-file" name="files1">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('첨부파일2') }}</label>
+
+                            <div class="col-md-10">
+                                <input id="files" type="file" class="form-control-file" name="files2">
                             </div>
                         </div>
 
@@ -47,7 +57,7 @@
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">{{ __('저장') }}</button>
                                 <button type="button" class="btn btn-primary" id='btnSave'>{{ __('저장(A)') }}</button>
-                                <a href="{{ url('boards') }}" class="btn btn-secondary">{{ __('목록') }}</a>
+                                <a href="{{ url('reply_board') }}" class="btn btn-secondary">{{ __('목록') }}</a>
                             </div>
                         </div>
                     </form>
@@ -85,7 +95,7 @@
         //formData.append('files',$(files)[0].files[0]);
         $.ajax({
             type: 'POST',
-            url: '/boards',
+            url: '/reply_board',
             data: formData,
             contentType: false,
             processData: false,
@@ -101,4 +111,3 @@
 </script>
 
 @endsection
-

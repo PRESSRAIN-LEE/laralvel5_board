@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+
+//use Intervention\Image\Facades\Image;
+
 use App\Board;       //Board.php에 있는 namespace를 사용
 
 class BoardController extends Controller
@@ -41,9 +46,20 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
+        //$validator = Validator::make($data = Input::all(), Board::$rules);
+        //if($validator->fails()){
+         //   return redirect()->back()->withErrors($validator->errors())->withInput();
+        //}
+
         $files = $request->file('files');
         //return($files->getClientOriginalName());
-        $path = $request->file('files')->store('public/board');
+        //dd(storage_path());
+
+        $path = $request->file('files')->store('board');
+        //$path = $request->file('files')->store('D:\work\00.GIT\uploads\attachFiles');
+        //$path = $request->file('files')->store(Storage::disk('public'));
+        //dd($path);
+        
         //dd($request->file('files')->getClientOriginalName());
         $originalFileName = $request->file('files')->getClientOriginalName();
         $saveFileName = $request->file('files')->hashName();
@@ -54,6 +70,7 @@ class BoardController extends Controller
             'name'=>$request->input('name'),
             'body'=>$request->input('body'),
             'files'=>$saveFileName,
+            'files_ori'=>$originalFileName,
             //'view'=>$request->input('view')
         ]); //모델
 
@@ -96,11 +113,39 @@ class BoardController extends Controller
     public function update(Request $request, $id)
     {
         //return 'OK';
+        //$path = $request->file('files')->store('board');
+        //dd($path);
+        
+
+        //$files = $request->file('files');
+        //return($files->getClientOriginalName());
+        //dd(storage_path());
+        
+
+        //$path = $request->file('files')->update('board');
+        //$path = $request->file('files')->store('D:\work\00.GIT\uploads\attachFiles');
+        //$path = $request->file('files')->store(Storage::disk('public'));
+        //dd($path);
+        
+        //dd($request->file('files')->getClientOriginalName());
+        //$originalFileName = $request->file('files')->getClientOriginalName();
+        //$saveFileName = $request->file('files')->hashName();
+
         $board = Board::find($id);
         $board->title = $request->title;
         $board->name = $request->name;
         $board->body = $request->body;
+        //if($saveFileName){
+        //    $board->files = $saveFileName;
+        //    $board->files_ori = $originalFileName;
+        //}
+        //dd($request->fileDel);
         $board->save();
+
+        //파일 삭제
+        //if(($request->fileDel) == "Y"){
+            //return 'Y';
+        //}
 
         return redirect('/boards/' . $id . '/show');
     }
@@ -130,10 +175,35 @@ class BoardController extends Controller
     }
 
     //조횟수 증가 시키기
-    public function viewCnt($id){
+    public function viewCnt(Request $request, $id){
         //return ($id);
         $board = Board::find($id);
         $board->view = ($board->view + 1);
         $board->save();
+    }
+
+    //첨부파일 다운로드 - 사용 안함
+    public function fileDownload($fileName){
+        //return $fileName;
+        //return Storage::download(url('/') . '\storage\app\public\board/' . $fileName);
+
+        //return response()->download(url('/') . '\storage\app\public\board/' . $fileName);
+        //return Storage::disk('attachFiles')->download('', $fileName);
+        //dd(Storage::disk('attachFiles')->download(storage_path('/app/public/board/') . $fileName));
+
+        //return response()->file(storage_path('/app/public/board/') . $fileName);    //파일 보기
+        //return response()->download(storage_path('/app/public/board/') . $fileName, $fileName);
+
+        //return response()->download(url('/') . '\storage\app\public\board/' . $fileName, $fileName); 
+        //return Response::download('On5VtKLc0lE964C0WcnoRCYiIfsfgBinu1RB0HHH.jpeg');
+    }
+
+    //첨부파일 다운로드 (DB)
+    public function fileDownloadDb(Request $request, $id){
+        $board = Board::find($id);
+        //return response()->file(storage_path('/app/public/board/') . $board->files, $board->files_ori);
+        //return '첨부파일 다운로드 (DB)';
+        //dd(response()->file(storage_path('/app/public/board/') . $board->files, $board->files_ori));
+        return response()->download(storage_path('/app/public/board/') . $board->files, $board->files_ori);
     }
 }
