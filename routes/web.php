@@ -1,11 +1,8 @@
 <?php
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BoardController;
-=======
->>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +14,6 @@ use App\Http\Controllers\BoardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-<<<<<<< HEAD
 
 //참고사이트 https://www.youtube.com/watch?v=lM4nd2jTHZo
 
@@ -70,7 +65,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-=======
 Route::get('/', function () {
 	return view('welcome');
 });
@@ -118,4 +112,4 @@ Route::prefix('reply_board') -> middleware('auth') -> group(function(){
 //Route::resources([
 //    'Bbs' => BbsController::class,
 //]);
->>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
+
