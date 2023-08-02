@@ -10,5 +10,10 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+<<<<<<< HEAD
 .env
 .phpunit.result.cache
+=======
+
+.phpunit.result.cache
+>>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107

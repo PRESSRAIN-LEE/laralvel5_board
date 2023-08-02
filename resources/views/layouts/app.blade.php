@@ -10,6 +10,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+<<<<<<< HEAD
+=======
+    <!--jquery cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    
+>>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 

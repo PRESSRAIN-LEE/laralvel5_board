@@ -13,7 +13,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'default' => env('FILESYSTEM_DRIVER', 'local'),
+=======
+    'default' => env('FILESYSTEM_DRIVER', 'public'),
+>>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
 
     /*
     |--------------------------------------------------------------------------
@@ -50,8 +54,15 @@ return [
 
         'public' => [
             'driver' => 'local',
+<<<<<<< HEAD
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+=======
+            //'root' => storage_path('app/public'),
+            'root' => '/var/www/snsapi.avansoft.co.kr/storage/app/public/images/banner',
+            'url' => env('APP_URL').'/uploads',
+            //'url' => env('APP_URL').'/storage',
+>>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
             'visibility' => 'public',
         ],
 
@@ -64,6 +75,34 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+<<<<<<< HEAD
+=======
+        'attachFiles' => [
+            'driver' => 'local',
+            //'root' => storage_path('app/public'),
+            'root' => env('FILE_DIR').'',
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+
+            'permissions' => [
+                'file' => [
+                    'public' => 0644,
+                    'private' => 0600,
+                ],
+                'dir' => [
+                    'public' => 0755,
+                    'private' => 0700,
+                ],
+            ],
+        ],
+
+    ],
+
+    //추가
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+        public_path('images') => storage_path('app/public/images'),
+>>>>>>> 05be93f9353a951ccee3be3f08b76db6f57d3107
     ],
 
 ];
