@@ -7,14 +7,18 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## 답변형(Reply) 게시판
-현재 진행 중 입니다.
+## 개발 완료 목록
+-. 게시판 목록
+-. 게시판 페이징
 
-### Comment(댓글) 기능 추가
-이 기능은 추가 예정입니다.
+## 진행 중 목록
+- 답변(Reply) 기능 진행중
 
-## 파일 다운로드 받기 기능 추가 
-이 기능은 추가 예정입니다.
+## 예정 목록
+- Comment(댓글) 기능
+- 파일 다운로드 기능
+- 검색 기능
+
 
 
 ### About Laravel
