@@ -7,17 +7,17 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-# 답변형(Reply) 게시판
+## 답변형(Reply) 게시판
 현재 진행 중 입니다.
 
-# Comment(댓글) 기능 추가
+### Comment(댓글) 기능 추가
 이 기능은 추가 예정입니다.
 
-# 파일 다운로드 받기 기능 추가 
+## 파일 다운로드 받기 기능 추가 
 이 기능은 추가 예정입니다.
 
 
-## About Laravel
+### About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
