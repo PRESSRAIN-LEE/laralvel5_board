@@ -28,8 +28,8 @@
         <td>{{ $board->member_name }}</td>
         <td>
             <a href='javascript:goView({{ $board->id }});'>
-              @if($board->sort > 0)
-                @for ($i=0; $i<$board->sort; $i++)
+              @if($board->depth > 0)
+                @for ($i=0; $i<$board->depth; $i++)
                   &nbsp;&nbsp;
                 @endfor
                 └{{ $board->board_title }}

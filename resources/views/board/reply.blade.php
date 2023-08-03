@@ -9,21 +9,21 @@
 	{{-- <form method="POST" name='frm' id='frm' action='/board/store' aria-label="{{ __('create') }}" enctype="multipart/form-data"> --}}
 	@csrf
 	{{-- @method('POST') --}}
-	<input type="TEXT" class="form-control" name='member_seq' id='member_seq' value='{{$board -> member_seq}}'>
-	<input type="TEXT" class="form-control" name='board_content' id='board_content'>
-	<input type="TEXT" class="form-control" name='grp' id='grp' value="{{ $board -> grp}}">
-	<input type="TEXT" class="form-control" name='sort' id='sort' value="{{ $board -> sort}}">
-	<input type="TEXT" class="form-control" name='depth' id='depth' value="{{ $board -> depth}}">
+	<input type="HIDDEN" class="" name='member_seq' id='member_seq' value='{{$board -> member_seq}}'>
+	<input type="HIDDEN" class="" name='board_content' id='board_content'>
+	grp: <input type="TEXT" class="" name='grp' id='grp' value="{{ $board -> grp}}">
+	sort: <input type="TEXT" class="" name='sort' id='sort' value="{{ $board -> sort}}">
+	depth: <input type="TEXT" class="" name='depth' id='depth' value="{{ $board -> depth}}">
 
 	<div class="container">
 		<div class="row mt-5">
-			<div class="col-12">
+			<div class="col-auto">
 				<label>이름</label>
 				<input type="text" class="form-control" name='member_name' id='member_name' value='{{$board -> member_name}}'>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-3">
+			<div class="col-6">
 				<label>제목</label>
 				<input type="text" class="form-control" name='board_title' id='board_title' value='{{$board -> board_title}}'>
 			</div>
@@ -34,14 +34,14 @@
 				<div id="editor">{!!$board -> board_content!!}</div>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-3">
+			<div class="col-6">
 				<label>첨부파일1</label>
 				<input type="file" class="form-control" name='board_file1' id='board_file1'>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-3">
+			<div class="col-6">
 				<label>첨부파일2</label>
 				<input type="file" class="form-control" name='board_file2' id='board_file2'>
 			</div>
@@ -75,11 +75,11 @@
             	location.href='/board';
         	});
 			$("#btnSave").click(function(){
-            	goSave();
+            	goSave({{$board -> id}});
         	});
 		});
 
-		function goSave(){
+		function goSave(pa){
 			let content = $(".ck-content").html(); 
 			$("#board_content").val(content);
 
@@ -88,20 +88,24 @@
 			//var formData = new FormData();
 			//var files = $('#files');
 			//formData.append('files',$(files)[0].files[0]);
-			
+			let url = "/board/" + pa + "/replyStore/";
 			$.ajax({
 				type: 'POST',
-				url: '/board/store',
+				url: url,
 				data: formData,
 				contentType: false,
 				processData: false,
 				success: function(response){
-					console.log(response);
+					//console.log("A");
+					//console.log(response);
 					//$('#fileSaveName').val(response);
+					location.href='/board';
 				},
 				error : function(request, status, error ) {   // 오류가 발생했을 때 호출된다.
+					//console.log("B");
 					//console.log('code:'+request.status+'\n'+'message:'+request.responseText+'\n'+'error:'+error);
-					console.log('code:'+request.status+'\n'+'error:'+error);
+					//console.log('code:'+request.status+'\n'+'error:'+error);
+					alert("에러가 발생하였습니다.");
 				}
 			});
 			

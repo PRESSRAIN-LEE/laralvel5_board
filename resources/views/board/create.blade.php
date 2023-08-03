@@ -9,21 +9,21 @@
 	{{-- <form method="POST" name='frm' id='frm' action='/board/store' aria-label="{{ __('create') }}" enctype="multipart/form-data"> --}}
 	@csrf
 	{{-- @method('POST') --}}
-	<input type="HIDDEN" class="form-control" name='member_seq' id='member_seq'>
-	<input type="HIDDEN" class="form-control" name='board_content' id='board_content'>
-	<input type="TEXT" class="form-control" name='grp' id='grp'>
-	<input type="TEXT" class="form-control" name='sort' id='sort'>
-	<input type="TEXT" class="form-control" name='depth' id='depth'>
+	<input type="HIDDEN" class="" name='member_seq' id='member_seq' value="0">
+	<input type="HIDDEN" class="" name='board_content' id='board_content'>
+	<input type="HIDDEN" class="" name='grp' id='grp'>{{-- 사용 안함 --}}
+	<input type="HIDDEN" class="" name='sort' id='sort'>{{-- 사용 안함 --}}
+	<input type="HIDDEN" class="" name='depth' id='depth'>{{-- 사용 안함 --}}
 
 	<div class="container">
 		<div class="row mt-5">
-			<div class="col-12">
+			<div class="col-auto">
 				<label>이름</label>
 				<input type="text" class="form-control" name='member_name' id='member_name'>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-3">
+			<div class="col-6">
 				<label>제목</label>
 				<input type="text" class="form-control" name='board_title' id='board_title'>
 			</div>
@@ -34,14 +34,14 @@
 				<div id="editor"></div>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-3">
+			<div class="col-auto">
 				<label>첨부파일1</label>
 				<input type="file" class="form-control" name='board_file1' id='board_file1'>
 			</div>
 		</div>
-		<div class="row mt-5">
-			<div class="col-12">
+		<div class="row my-5">
+			<div class="col-auto">
 				<label>첨부파일2</label>
 				<input type="file" class="form-control" name='board_file2' id='board_file2'>
 			</div>

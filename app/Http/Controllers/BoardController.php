@@ -16,11 +16,11 @@ class BoardController extends Controller
     public function index()
     {
         $boards = Board::where('board_state', 'Y')
-        ->orderby('grp', 'DESC')
-        ->orderby('depth', 'ASC')
-        ->orderby('id', 'DESC')
-        ->paginate(10);
-        //->get();
+                ->orderby('grp', 'DESC')
+                ->orderby('sort', 'ASC')
+                ->orderby('id', 'DESC')
+                ->paginate(10);
+                //->get();
         return view('board.index')
         ->with('boards', $boards);
     }
@@ -79,8 +79,31 @@ class BoardController extends Controller
         //$path = $request->file('files')->store('D:\work\00.GIT\uploads\attachFiles');
         //$path = $request->file('files')->store(Storage::disk('public'));
         //dd($path1);
-        
         //dd($request->file('files')->getClientOriginalName());
+        
+        $member_seq = $request->input('member_seq');
+        $member_name = $request->input('member_name');
+        $board_title = $request->input('board_title');
+        $board_content = $request->input('board_content');
+
+        $boardPage = new Board;
+        $boardPage -> member_seq = $member_seq;
+        $boardPage -> member_name  = $member_name;
+        $boardPage -> board_title = $board_title;
+        $boardPage -> board_content = $board_content;
+        $boardPage -> grp = 0;
+        $boardPage -> sort = 0;
+        $boardPage -> depth = 0;
+        $boardPage -> board_file1 = $saveFileName1;
+        $boardPage -> board_file1_ori = $originalFileName1;
+        $boardPage -> board_file2 = $saveFileName2;
+        $boardPage -> board_file2_ori = $originalFileName2;
+        $boardPage -> save();
+
+        $boardPage -> grp = $boardPage -> id;
+        $boardPage -> save();
+        
+        /*
         $board = Board::create([
             //디비 테이블의 필드명 => 입력단에서 넘어옴 입력 필드
             'grp' => $request->input('grp'),
@@ -98,6 +121,7 @@ class BoardController extends Controller
             'board_file2' => $saveFileName2,
             'board_file2_ori' => $originalFileName2,
         ]);
+        */
 
         //$result = $request -> all();
         //$data = array(
@@ -106,6 +130,99 @@ class BoardController extends Controller
         //return response() -> json($data);
 
         return redirect('/board');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function replyStore(Request $request, $id)
+    {
+        //"update 테이블 set re_step = re_step + 1 where ref = "&ref&" and re_step > "&re_step 
+        $board = Board::find($id);
+        $grp = $request->input('grp');
+        $sort = $request->input('sort');
+        $depth = $request->input('depth');
+        
+        $member_seq = $request->input('member_seq');
+        $member_name = $request->input('member_name');
+        $board_title = $request->input('board_title');
+        $board_content = $request->input('board_content');
+
+        //업데이트
+        Board::where([
+            ['grp',$grp],
+            ['sort','>',$sort],
+        ])->increment('sort', 1);
+
+        $commentPage = new Board;
+        $commentPage->member_seq = $member_seq;
+        $commentPage->member_name  = $member_name;
+        $commentPage->board_title = $board_title;
+        $commentPage->board_content = $board_content;
+        $commentPage->grp = $grp; 
+        $commentPage->sort = $sort+1; 
+        $commentPage->depth = $depth+1;
+        $commentPage->save();
+        
+        //$board = Board::find($grp);
+        //$board->depth = ($board->depth + 1);
+        //$board->save();
+
+        return;
+
+        //dd("REPLY");
+        /*
+        if($request->hasFile('board_file1')){
+            $path1 = $request->file('board_file1')->store('board');     //저장 될 폴더명
+            $originalFileName1 = $request->file('board_file1')->getClientOriginalName();
+            $saveFileName1 = $request->file('board_file1')->hashName();
+        }else{
+            $originalFileName1 = "";
+            $saveFileName1 = "";
+        }
+        
+        if($request->hasFile('board_file2')){
+            $path2 = $request->file('board_file2')->store('board');     //저장 될 폴더명
+            $originalFileName2 = $request->file('board_file2')->getClientOriginalName();
+            $saveFileName2 = $request->file('board_file2')->hashName();
+        }else{
+            $originalFileName2 = "";
+            $saveFileName2 = "";
+        }
+
+        //$path = $request->file('files')->store('D:\work\00.GIT\uploads\attachFiles');
+        //$path = $request->file('files')->store(Storage::disk('public'));
+        //dd($path1);
+        
+        //dd($request->file('files')->getClientOriginalName());
+        dd(Board::find($id));
+        
+        $board = Board::create([
+            //디비 테이블의 필드명 => 입력단에서 넘어옴 입력 필드
+            'grp' => $request->input('grp'),
+            'sort' => $request->input('sort'),
+            'depth' => $request->input('depth'),
+            'member_seq' =>$request->input('member_seq'),
+            'board_title' => $request->input('board_title'),
+            'member_name' =>$request->input('member_name'),
+            'board_content' =>$request->input('board_content'),
+
+            'board_file1' => $saveFileName1,
+            'board_file1_ori' => $originalFileName1,
+            'board_file2' => $saveFileName2,
+            'board_file2_ori' => $originalFileName2,
+        ]);
+
+        //$result = $request -> all();
+        //$data = array(
+        //    'result' => $request
+        //);
+        //return response() -> json($data);
+        */
+        //return redirect('/board');
     }
 
     /**

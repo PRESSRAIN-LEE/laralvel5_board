@@ -46,6 +46,7 @@ Route::get('/board/create', [BoardController::class, 'create']);
 Route::post('/board/store', [BoardController::class, 'store']);
 
 Route::get('/board/{id}/reply', [BoardController::class, 'reply']);
+Route::post('/board/{id}/replyStore', [BoardController::class, 'replyStore']);
 
 Route::get('/board/{id}/show', [BoardController::class, 'show']);
 Route::get('/board/{id}/viewCnt', [BoardController::class, 'viewCnt']);	//상세 - 조횟수 증가
